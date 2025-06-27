@@ -1,8 +1,8 @@
 import { createClient } from '@supabase/supabase-js';
 
-// These should be environment variables in production
-const supabaseUrl = process.env.REACT_APP_SUPABASE_URL || 'http://localhost:54321';
-const supabaseAnonKey = process.env.REACT_APP_SUPABASE_ANON_KEY || 'your-anon-key';
+// Live Supabase backend configuration
+const supabaseUrl = process.env.REACT_APP_SUPABASE_URL || 'https://tsmtaarwgodklafqlbhm.supabase.co';
+const supabaseAnonKey = process.env.REACT_APP_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRzbXRhYXJ3Z29ka2xhZnFsYmhtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDc4NTM2MjAsImV4cCI6MjA2MzQyOTYyMH0.AT_9RXVrI82-oSbvUACmtRgFCm2k-rx4hEozKqMa1Ds';
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
