@@ -61,15 +61,8 @@ const WatchHands: React.FC<WatchHandsProps> = ({
   const subdial2Center = { x: center, y: center + radius * 0.6 }; // 6 o'clock
   const subdial3Center = { x: center + radius * 0.6, y: center }; // 3 o'clock
 
-  // Subdial hand positions based on data
-  const subdial1Hand = getHandCoordinates(dataValues?.subdial1 * 6 || 0, radius * 0.2);
-  const subdial2Hand = getHandCoordinates(secondAngle, radius * 0.2); // Running seconds
-  const subdial3Hand = getHandCoordinates(dataValues?.subdial3 * 6 || 0, radius * 0.2);
-
   // Chronometer hands
   const chronoSecondHand = getHandCoordinates(chronoSecondAngle, radius * 0.85);
-  const chronoMinuteHand = getHandCoordinates(chronoMinuteAngle, radius * 0.2);
-  const chronoHourHand = getHandCoordinates(chronoHourAngle, radius * 0.2);
 
   return (
     <svg

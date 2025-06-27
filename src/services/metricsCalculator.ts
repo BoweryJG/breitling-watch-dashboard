@@ -1,4 +1,4 @@
-import { format, startOfDay, endOfDay, startOfMonth, startOfWeek, subDays, isAfter, isBefore } from 'date-fns';
+import { format, startOfDay, endOfDay, startOfMonth, startOfWeek } from 'date-fns';
 import { 
   Appointment, 
   Patient, 
@@ -91,8 +91,7 @@ export class MetricsCalculator {
 
   static calculateServiceMetrics(services: Service[], appointments: Appointment[]): ServiceMetrics {
     // Yomi procedures count
-    const yomiServices = services.filter(s => s.is_yomi_technology);
-    const yomiProcedures = appointments.filter(apt => 
+    const yomiProcedures = appointments.filter(apt =>
       apt.services && apt.services.is_yomi_technology
     ).length;
 

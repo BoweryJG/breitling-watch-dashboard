@@ -1,12 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
 import { supabase, subscribeToTable, unsubscribeFromTable } from '../services/supabaseClient';
 import { MetricsCalculator } from '../services/metricsCalculator';
-import { 
-  WatchMetrics, 
-  Appointment, 
-  Patient, 
-  Service, 
-  Testimonial 
+import {
+  WatchMetrics
 } from '../types/watch.types';
 
 interface UseSupabaseDataReturn {
@@ -181,7 +177,7 @@ export const useSupabaseData = (realTimeUpdates: boolean = true): UseSupabaseDat
         unsubscribeFromTable(subscription);
       });
     };
-  }, [setupRealTimeSubscriptions]);
+  }, [setupRealTimeSubscriptions, subscriptions]);
 
   // Cleanup subscriptions when realTimeUpdates changes
   useEffect(() => {
@@ -190,7 +186,7 @@ export const useSupabaseData = (realTimeUpdates: boolean = true): UseSupabaseDat
         unsubscribeFromTable(subscription);
       });
     };
-  }, [realTimeUpdates]);
+  }, [realTimeUpdates, subscriptions]);
 
   return {
     metrics,
@@ -208,7 +204,7 @@ export const useSupabaseConnection = () => {
   useEffect(() => {
     const checkConnection = async () => {
       try {
-        const { data, error } = await supabase
+        const { error } = await supabase
           .from('patients')
           .select('count')
           .limit(1);
