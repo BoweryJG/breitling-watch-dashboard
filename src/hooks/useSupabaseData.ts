@@ -19,8 +19,6 @@ export const useSupabaseData = (realTimeUpdates: boolean = true): UseSupabaseDat
   const [error, setError] = useState<string | null>(null);
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
 
-  // Store subscriptions for cleanup
-  const [subscriptions, setSubscriptions] = useState<any[]>([]);
 
   const fetchData = useCallback(async () => {
     try {
@@ -111,7 +109,13 @@ export const useSupabaseData = (realTimeUpdates: boolean = true): UseSupabaseDat
     }
   }, []);
 
-  const setupRealTimeSubscriptions = useCallback(() => {
+  // Initial data fetch
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
+  // Setup real-time subscriptions
+  useEffect(() => {
     if (!realTimeUpdates) return;
 
     const newSubscriptions: any[] = [];
@@ -159,34 +163,13 @@ export const useSupabaseData = (realTimeUpdates: boolean = true): UseSupabaseDat
       testimonialsSub
     );
 
-    setSubscriptions(newSubscriptions);
+    // Cleanup subscriptions on unmount or when realTimeUpdates changes
+    return () => {
+      newSubscriptions.forEach(subscription => {
+        unsubscribeFromTable(subscription);
+      });
+    };
   }, [realTimeUpdates, fetchData]);
-
-  // Initial data fetch
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
-
-  // Setup real-time subscriptions
-  useEffect(() => {
-    setupRealTimeSubscriptions();
-
-    // Cleanup subscriptions on unmount
-    return () => {
-      subscriptions.forEach(subscription => {
-        unsubscribeFromTable(subscription);
-      });
-    };
-  }, [setupRealTimeSubscriptions, subscriptions]);
-
-  // Cleanup subscriptions when realTimeUpdates changes
-  useEffect(() => {
-    return () => {
-      subscriptions.forEach(subscription => {
-        unsubscribeFromTable(subscription);
-      });
-    };
-  }, [realTimeUpdates, subscriptions]);
 
   return {
     metrics,
